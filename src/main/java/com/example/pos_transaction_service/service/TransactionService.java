@@ -58,4 +58,13 @@ public class TransactionService {
 		return null;
 	}
 
+	public String deleteTransaction(Long id) {
+		
+		 if (transactionRepository.existsById(id)) {
+		        transactionRepository.deleteById(id);
+		        return "Transaction deleted successfully";
+		    }
+		    return "Transaction not found";
+	}
+
 }

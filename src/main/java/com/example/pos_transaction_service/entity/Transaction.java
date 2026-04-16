@@ -2,6 +2,9 @@ package com.example.pos_transaction_service.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "transactions")
@@ -9,19 +12,28 @@ public class Transaction {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+	
+	@NotBlank
     private String productName;
-
+	
+    @NotNull
+    @Positive
     private Integer quantity;
-
+    
+    @NotNull
+    @Positive
     private Double price;
-
+    
+    @NotNull
     private Double discount;
 
+    @NotNull
     private Double tax;
 
+    
     private Double totalAmount;
 
+    @NotBlank
     private String paymentMethod;
 
     private LocalDateTime transactionDate;

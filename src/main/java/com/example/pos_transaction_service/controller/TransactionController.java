@@ -1,6 +1,7 @@
 package com.example.pos_transaction_service.controller;
 
 import java.util.List;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class TransactionController {
 	private TransactionService transactionService;
 
     @PostMapping
-    public Transaction createTransaction(@RequestBody Transaction transaction) {
+    public Transaction createTransaction( @Valid @RequestBody Transaction transaction) {
         return transactionService.saveTransaction(transaction);
     }
 
@@ -33,8 +34,13 @@ public class TransactionController {
     
     @PutMapping("/{id}")
     public Transaction updateTransaction(@PathVariable Long id,
-                                         @RequestBody Transaction transaction) {
+                                        @Valid @RequestBody Transaction transaction) {
         return transactionService.updateTransaction(id, transaction);
+    }
+    
+    @DeleteMapping("/{id}")
+    public String deleteTransaction(@PathVariable Long id) {
+        return transactionService.deleteTransaction(id);
     }
     
     }
