@@ -30,4 +30,32 @@ public class TransactionService {
     public List<Transaction> getAllTransactions() {
         return transactionRepository.findAll();
     }
+    
+    public Transaction getTransactionById(Long id) {
+    	return transactionRepository.findById(id).orElse(null);
+    	   
+    }
+
+	public Transaction updateTransaction(Long id, Transaction updatedTransaction) {
+		Transaction existingTransaction = transactionRepository.findById(id).orElse(null);
+
+	    if (existingTransaction != null) {
+	        existingTransaction.setProductName(updatedTransaction.getProductName());
+	        existingTransaction.setQuantity(updatedTransaction.getQuantity());
+	        existingTransaction.setPrice(updatedTransaction.getPrice());
+	        existingTransaction.setDiscount(updatedTransaction.getDiscount());
+	        existingTransaction.setTax(updatedTransaction.getTax());
+	        existingTransaction.setPaymentMethod(updatedTransaction.getPaymentMethod());
+
+	        double total = (updatedTransaction.getPrice() * updatedTransaction.getQuantity())
+	                - updatedTransaction.getDiscount()
+	                + updatedTransaction.getTax();
+
+	        existingTransaction.setTotalAmount(total);
+
+	        return transactionRepository.save(existingTransaction);
+	    }
+		return null;
+	}
+
 }
