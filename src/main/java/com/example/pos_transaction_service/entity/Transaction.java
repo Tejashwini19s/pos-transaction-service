@@ -75,16 +75,16 @@ public class Transaction {
         return discount;
     }
 
-    public void setDiscount(Double discount) {
-        this.discount = discount;
+    public void setDiscount(Double i) {
+        this.discount = i;
     }
 
     public Double getTax() {
         return tax;
     }
 
-    public void setTax(Double tax) {
-        this.tax = tax;
+    public void setTax(Double i) {
+        this.tax = i;
     }
 
     public Double getTotalAmount() {

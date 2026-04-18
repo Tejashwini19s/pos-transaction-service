@@ -1,46 +1,48 @@
 package com.example.pos_transaction_service.controller;
 
-import java.util.List;
-import jakarta.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.pos_transaction_service.service.IdempotencyService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import com.example.pos_transaction_service.entity.Transaction;
-import com.example.pos_transaction_service.service.TransactionService;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/transactions")
 public class TransactionController {
-	
-	@Autowired
-	private TransactionService transactionService;
+
+    private final IdempotencyService idempotencyService;
+
+    public TransactionController(IdempotencyService idempotencyService) {
+        this.idempotencyService = idempotencyService;
+    }
 
     @PostMapping
-    public Transaction createTransaction( @Valid @RequestBody Transaction transaction) {
-        return transactionService.saveTransaction(transaction);
+    public ResponseEntity<String> createTransaction(
+            @RequestHeader("Idempotency-Key") String key) {
+
+        return idempotencyService.handle(
+                key,
+                "/transactions",
+                "POST",
+                () -> ResponseEntity.ok("Transaction Success")
+        );
     }
 
-    @GetMapping
-    public List<Transaction> getAllTransactions() {
-        return transactionService.getAllTransactions();
-    }
     
     @GetMapping("/{id}")
-    	public Transaction getTransactionById(@PathVariable Long id) {
-    		return transactionService.getTransactionById(id);
+    	public ResponseEntity<String> getTransaction(@PathVariable Long id) {
+    		return ResponseEntity.ok("Transaction details for " + id);
     	}
     
     @PutMapping("/{id}")
-    public Transaction updateTransaction(@PathVariable Long id,
-                                        @Valid @RequestBody Transaction transaction) {
-        return transactionService.updateTransaction(id, transaction);
-    }
-    
-    @DeleteMapping("/{id}")
-    public String deleteTransaction(@PathVariable Long id) {
-        return transactionService.deleteTransaction(id);
+    public ResponseEntity<String> updateTransaction(
+            @PathVariable Long id,
+            @RequestHeader("Idempotency-Key") String key) {
+
+        return idempotencyService.handle(
+                key,
+                "/transactions/" + id,
+                "PUT",
+                () -> ResponseEntity.ok("Transaction Updated")
+        );
     }
     
     }
