@@ -6,12 +6,12 @@ A Spring Boot-based backend service that implements **idempotent transaction API
 
 ## Features
 
-* ✅ Idempotent API handling using `Idempotency-Key`
-* ✅ Prevents duplicate transaction processing
-* ✅ RESTful APIs with Spring Boot
-* ✅ MySQL database integration
-* ✅ Dockerized setup (App + DB)
-* ✅ JPA/Hibernate for persistence
+* Idempotent API handling using `Idempotency-Key`
+* Prevents duplicate transaction processing
+* RESTful APIs with Spring Boot
+* MySQL database integration
+* Dockerized setup (App + DB)
+* JPA/Hibernate for persistence
 
 ---
 
@@ -71,7 +71,7 @@ docker-compose up --build
 
 ## API Endpoints
 
-### 🔹 Create Transaction
+### Create Transaction
 
 **POST** `/transactions`
 
@@ -165,4 +165,4 @@ This project demonstrates how systems like **Stripe / Razorpay** handle:
 
 ##  If you like this project
 
-Give it a star ⭐ on GitHub!
+Give it a star ⭐
